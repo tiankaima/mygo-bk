@@ -56,7 +56,7 @@ async def fetch_comment_replies(comment: comment.Comment) -> list[dict]:
 
 async def fetch_video_comment(video: Video) -> None:
     id = BV_ids.index(video.get_bvid()) + 1
-    path = f"./export/{id}.json"
+    path = f"./export/{str(id).zfill(2)}.json"
 
     comments = []
     page = 1
