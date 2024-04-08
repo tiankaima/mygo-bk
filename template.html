@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/artplayer-plugin-danmuku/dist/artplayer-plugin-danmuku.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                },
+                container: {
+                    center: true
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+          .content-auto {
+            content-visibility: auto;
+          }
+        }
+      </style>
+</head>
+
+<body>
+    <div class="px-10">
+        <a href="/">
+            <div class="flex items-center pt-2">
+                <img src="/assets/img/icon.jpeg" alt="MYGO !!!!!" class="p-5 w-20">
+                <h1 class="text-blue-500 text-3xl font-bold italic">
+                    MYGO!!!!!
+                </h1>
+            </div>
+        </a>
+
+        <div class="overflow-auto pb-2 font-mono text-white text-sm font-bold">
+            <div class="flex" id="navigations">
+                <!-- navigations -->
+            </div>
+        </div>
+
+        <div class="artplayer-app" style="height: 600px;"></div>
+
+        <h1 class="text-black-500 text-2xl font-bold italic px-5 pt-5 underline">
+            Comments
+        </h1>
+
+        <div class="comments px-10">
+            <!-- <div class="">
+                <div class="pt-4 flex items-center">
+                    <p
+                        class="font-mono font-bold bg-red-300 text-white text-sm px-4 py-2 border rounded-full whitespace-nowrap">
+                        +4000</p>
+                    <a href="https://space.bilibili.com/516277218"
+                        class="italic bg-blue-300 hover:bg-blue-700 text-white text-sm px-4 py-2 border rounded-full whitespace-nowrap">
+                        author_name</a>
+                    <p
+                        class="font-mono font-bold bg-blue-100 text-black text-sm px-4 py-2 border rounded-full whitespace-nowrap">
+                        2024.04.05 08:00:13</p>
+                </div>
+                <div class="py-4">
+                    <h class="px-10 py-2 border rounded-lg bg-blue-50">comment_detail</h>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+    <script>
+        var art = new Artplayer({
+            container: '.artplayer-app',
+            url: '/assets/video/REPLACE_THIS_INDEX.mp4',
+            volume: 0.5,
+            isLive: false,
+            muted: false,
+            autoplay: true,
+            pip: true,
+            autoSize: true,
+            autoMini: true,
+            setting: true,
+            playbackRate: true,
+            aspectRatio: true,
+            fullscreen: true,
+            fullscreenWeb: true,
+            plugins: [
+                artplayerPluginDanmuku({
+                    danmuku: '/assets/xml/REPLACE_THIS_INDEX.xml',
+                }),
+            ],
+        });
+
+        art.plugins.artplayerPluginDanmuku.config({
+            fontSize: 18,
+            opacity: 0.5,
+        });
+
+        art.on('resize', () => {
+            art.plugins.artplayerPluginDanmuku.reset();
+        });
+
+        art.on('video:seeked', () => {
+            art.plugins.artplayerPluginDanmuku.reset();
+        });
+
+        // add 1-13 to navigations:
+        var navigations = document.getElementById('navigations');
+        for (var i = 1; i <= 13; i++) {
+            var a = document.createElement('a');
+            a.setAttribute('role', 'button');
+            if (i == REPLACE_THIS_INDEX) {
+                a.setAttribute('class', 'bg-blue-500 hover:bg-blue-700 text-white text-sm px-4 py-2 border rounded-full whitespace-nowrap');
+            } else {
+                a.setAttribute('class', 'bg-blue-300 hover:bg-blue-700 text-white text-sm px-4 py-2 border rounded-full whitespace-nowrap');
+            }
+            a.setAttribute('href', '/video/' + i.toString().padStart(2, '0'));
+            a.innerText = '# ' + i.toString().padStart(2, '0');
+            navigations.appendChild(a);
+        }
+
+        fetch("/assets/json/REPLACE_THIS_INDEX.json")
+            .then(response => response.json())
+            .then(json => {
+                var comments = document.querySelector('.comments');
+                for (var i = 0; i < json.length; i++) {
+                    var div = document.createElement('div');
+                    var div1 = document.createElement('div');
+                    div1.setAttribute('class', 'pt-4 flex items-center');
+                    var div2 = document.createElement('div');
+                    div2.setAttribute('class', 'pb-2');
+
+                    var p = document.createElement('p');
+                    p.setAttribute('class', 'font-mono font-bold bg-red-300 hover:bg-red-700 text-white text-sm px-4 py-1 border rounded-lg whitespace-nowrap');
+                    p.innerText = '+' + json[i].like;
+
+                    var a = document.createElement('a');
+                    a.setAttribute('href', "https://space.bilibili.com/" + json[i].author_id);
+                    a.setAttribute('class', 'italic bg-blue-300 hover:bg-blue-700 text-white text-sm px-4 py-1 border rounded-lg whitespace-nowrap');
+                    a.innerText = json[i].author_name;
+
+                    var p2 = document.createElement('p');
+                    p2.setAttribute('class', 'font-mono font-bold bg-blue-100 text-black text-sm px-4 py-1 border rounded-lg whitespace-nowrap');
+                    p2.innerText = (new Date(json[i].time * 1000)).toLocaleString();
+
+                    var h = document.createElement('h');
+                    // h.setAttribute('class', 'bg-blue-50');
+                    h.innerText = json[i].content;
+
+                    div1.appendChild(p);
+                    div1.appendChild(a);
+                    div1.appendChild(p2);
+                    div2.appendChild(h);
+                    div.appendChild(div1);
+                    div.appendChild(div2);
+                    comments.appendChild(div);
+                }
+            });
+    </script>
+</body>
+
+</html>
