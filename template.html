@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <div class="px-10">
+    <div class="px-2">
         <a href="/">
             <div class="flex items-center pt-2">
                 <img src="/assets/img/icon.jpeg" alt="MYGO !!!!!" class="p-5 w-20">
@@ -47,29 +47,16 @@
             </div>
         </div>
 
-        <div class="artplayer-app" style="height: 600px;"></div>
+        <div class="w-full">
+            <div class="artplayer-app" style="height: 50vw;"></div>
+        </div>
 
         <h1 class="text-black-500 text-2xl font-bold italic px-5 pt-5 underline">
             Comments
         </h1>
 
-        <div class="comments px-10">
-            <!-- <div class="">
-                <div class="pt-4 flex items-center">
-                    <p
-                        class="font-mono font-bold bg-red-300 text-white text-sm px-4 py-2 border rounded-full whitespace-nowrap">
-                        +4000</p>
-                    <a href="https://space.bilibili.com/516277218"
-                        class="italic bg-blue-300 hover:bg-blue-700 text-white text-sm px-4 py-2 border rounded-full whitespace-nowrap">
-                        author_name</a>
-                    <p
-                        class="font-mono font-bold bg-blue-100 text-black text-sm px-4 py-2 border rounded-full whitespace-nowrap">
-                        2024.04.05 08:00:13</p>
-                </div>
-                <div class="py-4">
-                    <h class="px-10 py-2 border rounded-lg bg-blue-50">comment_detail</h>
-                </div>
-            </div>-->
+        <div class="comments px-2">
+            <!-- comments -->
         </div>
     </div>
 
@@ -131,7 +118,7 @@
                 for (var i = 0; i < json.length; i++) {
                     var div = document.createElement('div');
                     var div1 = document.createElement('div');
-                    div1.setAttribute('class', 'pt-4 flex items-center');
+                    div1.setAttribute('class', 'overflow-auto pt-4 flex items-center');
                     var div2 = document.createElement('div');
                     div2.setAttribute('class', 'pb-2');
 
